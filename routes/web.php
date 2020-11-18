@@ -17,8 +17,19 @@ Route::get('/ver-pdf', 'HomeController@pdf')->name('pdf.index');
 
 Route::get('/paginacion-ajax', function(){
 	$items = App\Item::paginate(5);
-	return view('paginacion', compact('items'));
+	$finanzas = App\Finanza::paginate(5);
+	return view('paginacion', [
+		'items' => $items,
+		'finanzas' => $finanzas
+	]);
 });
+
+Route::post('/ajaxReq', 'HomeController@ajaxReq');
+Route::post('/ajaxReqFinanza', 'HomeController@ajaxReqFinanza');
+
+// #3 - Gráfico Morris Area Chart.
+
+Route::get('/charts', 'FinanzaController@index');
 
 // Otros.
 

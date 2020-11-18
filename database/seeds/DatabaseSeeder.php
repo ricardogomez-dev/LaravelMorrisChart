@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
     	Item::truncate();
 
         factory(Item::class, 20)->create();
+        $this->call(FinanzasTableSeeder::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use PDF;
 use App\Item;
+use App\Finanza;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -35,5 +36,17 @@ class HomeController extends Controller
 
         $pdf = \PDF::loadView('PDF-VIEW', compact('items'));
         return $pdf->stream();
+    }
+
+    public function ajaxReq(Request $request)
+    {
+        $response = Item::find($request->id);
+        return response()->json($response); 
+    }
+
+    public function ajaxReqFinanza(Request $request)
+    {
+        $response = Finanza::find($request->idFinanza);
+        return response()->json($response); 
     }
 }
