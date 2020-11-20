@@ -28,14 +28,11 @@
     <script>
         new Morris.Area({
           element: 'area-example',
+
           data: [
-            { y: '2006', a: 10, b: 9, c: 45 },
-            { y: '2007', a: 75,  b: 65, c: 45 },
-            { y: '2008', a: 50,  b: 40, c: 45 },
-            { y: '2009', a: 75,  b: 65, c: 45 },
-            { y: '2010', a: 50,  b: 40, c: 45 },
-            { y: '2011', a: 75,  b: 65, c: 45 },
-            { y: '2012', a: 10, b: 9, c: 45 }
+          @foreach($data as $d)
+            {  y: '{{ $d->fec }}', a: {{ $d->ing }}, b: {{ $d->gas }}, c: {{ $d->util }}  },
+          @endforeach
           ],
           xkey: 'y',
           ykeys: ['a', 'b', 'c'],

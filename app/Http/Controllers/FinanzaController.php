@@ -15,16 +15,19 @@ class FinanzaController extends Controller
      */
     public function index()
     {
-        $data = \DB::table('finanzas')
-            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('sum(ingreso) as ingresos'))
-            ->groupBy(DB::raw('MONTH(created_at)') )
-            ->get()->toJSON();
+        $data = DB::select(DB::raw("SELECT 
+                                        DATE_FORMAT(created_at, '%Y-%m') as fec,
+                                        SUM(ingreso) as ing, 
+                                        SUM(gasto) as gas,
+                                        (SUM(ingreso) - SUM(gasto)) as util 
+                                    FROM `finanzas`
+                                    GROUP BY fec
+                                    ORDER BY fec ASC"));
 
         return view('grafico', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
+    /*     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
