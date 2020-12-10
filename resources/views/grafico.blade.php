@@ -28,13 +28,14 @@
     <script>
         new Morris.Area({
           element: 'area-example',
-
+          parseTime: false,
           data: [
           @foreach($data as $d)
             {  y: '{{ $d->fec }}', a: {{ $d->ing }}, b: {{ $d->gas }}, c: {{ $d->util }}  },
           @endforeach
           ],
           xkey: 'y',
+          xLabels: 'y',
           ykeys: ['a', 'b', 'c'],
           labels: ['Ingresos', 'Gastos', 'Utilidad']
         });

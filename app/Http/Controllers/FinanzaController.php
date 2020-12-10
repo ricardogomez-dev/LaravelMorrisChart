@@ -16,13 +16,24 @@ class FinanzaController extends Controller
     public function index()
     {
         $data = DB::select(DB::raw("SELECT 
-                                        DATE_FORMAT(created_at, '%Y-%m') as fec,
+                                        (CASE WHEN DATE_FORMAT(created_at, '%m') = '01' THEN 'Ene' 
+                                              WHEN DATE_FORMAT(created_at, '%m') = '02' THEN 'Feb'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '03' THEN 'Mar'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '04' THEN 'Abr'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '05' THEN 'May'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '06' THEN 'Jun'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '07' THEN 'Jul'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '08' THEN 'Ago'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '09' THEN 'Sep'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '10' THEN 'Oct'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '11' THEN 'Nov'
+                                              WHEN DATE_FORMAT(created_at, '%m') = '12' THEN 'Dec' END) as fec,
                                         SUM(ingreso) as ing, 
                                         SUM(gasto) as gas,
                                         (SUM(ingreso) - SUM(gasto)) as util 
                                     FROM `finanzas`
-                                    GROUP BY fec
-                                    ORDER BY fec ASC"));
+                                    GROUP BY created_at
+                                    ORDER BY created_at ASC"));
 
         return view('grafico', compact('data'));
     }
