@@ -34,7 +34,21 @@ class HomeController extends Controller
     {
         $items = Item::get();
 
-        $pdf = \PDF::loadView('PDF-VIEW', compact('items'));
+        $data = [
+            [
+                'product' => 'Agua Minalba',
+                'unit_price' => 1000,
+                'qty' => 1
+            ],
+            [
+                'product' => 'Caja de Aceite',
+                'unit_price' => 1500,
+                'qty' => 10
+            ]
+        ];
+
+        
+        $pdf = \PDF::loadView('PDF-VIEW', compact('items','data'));
         return $pdf->stream();
     }
 

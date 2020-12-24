@@ -1,9 +1,12 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <title>Cotizacion</title>
+</head>
 <style>
 
-@page {
-    padding:0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;1,200&display=swap');
 
 header,
 footer {
@@ -19,98 +22,144 @@ footer {
     bottom: 80px;
 }
 
-.barra{
-    margin-top:20;
-    margin-left:90;
-    margin-bottom: 30px;
-    width: 491.338583px;
-    height:2mm;
-    background-color: black;
-}
-.pie-pagina{
-    font-size: 22px;
-    font-family: 'Satisfy';
-    color: black;
-}
 .contenido{
     margin-left:7%;
     width: 50%;
     float:left;
+    padding: 0px !important;
 }
-.contenido h1{
-    font-size:50px;
+.contenido p{
+    font-size:80px;
     color: black;
+    font-family: 'Great Vibes' !important;
+    margin:0px;
+    padding: 0px;
 }
 .barra{
-    margin-top: 2.5%;
-    margin-left: -4%;
-    width: 142.8%;
+    width: 500px;
     height:6px;
-    background-color: black;
+    background-color: #A7C4CC;
+    margin:20px 0px !important;
 }
-.barra2{
-    margin-top:1.4%;
-    margin-left: -4%;
-    width: 142.8%;
-    height:6px;
-    background-color: green;
-}
+
 .container{
-    position: absolute;
+    position: fixed;
     transform:rotate(-90deg);
-    margin-left: -33%;
+    margin-left: 23px;
     text-align: right;
     margin-top: 363px;
     width: 160%;
-    height: 300px;
-    background-color: red;
+    height: 180px;
+    background-color: #A7C4CC;
     color:white; 
-    float:left;
 }
-.container h1{
-    margin-right: 10%;
-    margin-top:5%;
-    font-size: 50px;
-}
-
-.servicio{
-    width: 140%;
+.container p{
+    margin-right: 17%;
+    margin-top:0%;
+    font-size: 80px;
+    font-family: 'Great Vibes' !important;
+    padding: 0px;
 }
 
-.titulo-paquete{
-    font-size: 50px;
-    text-align: center;
+table{
+    font-family: 'Montserrat', sans-serif;
 }
 
-.titulo-servicio{
-    font-size: 25px;
+table.tabla{
+    width: 488px;
 }
 
-.descripcion{
+table.tabla tr td{
+    text-align: left;
     font-size: 18px;
 }
 
+table.tabla tr th{
+    font-weight: bold !important;
+    text-align: left;
+}
+
+table.totals{
+    width: 502px;
+}
+
+table.totals tr td{
+    text-align: right;
+    padding: 3px 12px;
+    font-size: 18px;
+}
+
+table.totals tr td:first-child{
+    text-transform: uppercase;
+    width: 358px;
+}
+
+table.totals tr td:last-child{
+    text-align: left !important;
+}
 </style>
 <body>
+<div class="container">
+        <p>Shabbyshop</p>
+    </div>
     <div class="contenido">
-        <h1>Title</h1>
-        <div class="barra"></div>
+        <p>Cotizacion</p>
+        <table class="tabla">
+            <tr>
+                <td colspan="4">
+                    <div class="barra"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>Producto</th>
+                <th>Coste Unitario</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="barra"></div>
+                </td>
+            </tr>
+            @php
+                $subtotal = 0;
+                $discount = 0;
+                $total = 0;
 
-        @foreach($items as $item)
-            <div class="servicio">
-                <h3 class="titulo-servicio">{{ $item->title }}</h3>
-                <ul>
-                    <li class="descripcion">{{ $item->text }}</li>
-                </ul>
-            <hr>
-            </div>
-        @endforeach
-    </div>
-    <div class="container">
-        <h1>Text</h1>
-    </div>
-    <footer class="pie-pagina">
-        <h1>Footer</h1>
-    </footer>
+            @endphp
+            @foreach($data as $d)
+                @php $subtotal+=($d['unit_price'] * $d['qty']) @endphp
+            <tr>
+                <td>{{ $d['product'] }}</td>
+                <td>${{ money_format('%i',$d['unit_price']) }}</td>
+                <td>{{ $d['qty'] }}</td>
+                <td>${{ money_format('%i',($d['unit_price'] * $d['qty'])) }}</td>
+            </tr>
+            @endforeach
+            @php 
+                $discount = (($subtotal * 10) / 100);
+                $total = $subtotal - $discount;
+            @endphp
+            <tr>
+                <td colspan="4">
+                    <div class="barra"></div>
+                </td>
+            </tr>
+        </table>
+
+        <table class="totals">
+            <tr>
+                <td>subtotal:</td>
+                <td>${{ money_format('%i',$subtotal) }}</td>
+            </tr>
+            <tr>
+                <td>descuento 10%:</td>
+                <td>${{ money_format('%i',$discount) }}</td>
+            </tr>
+            <tr>
+                <td><b>total:</b></td>
+                <td>${{ money_format('%i',$total) }}</td>
+            </tr>
+        </table>
 </body>
 </html>
